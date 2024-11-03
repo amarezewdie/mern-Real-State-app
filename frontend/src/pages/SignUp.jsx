@@ -20,9 +20,9 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     setLoading(true);
+     setError(false);
     try {
-      setLoading(true);
-      setError(false);
       const res = await fetch("/api/auth/sign-up", {
         method: "POST",
         headers: {
@@ -30,7 +30,7 @@ const SignUp = () => {
         },
         body: JSON.stringify(formData),
       });
-      
+
       if (!res.ok) {
         const errorData = await res.json(); // Parse the error response
         setError(errorData.message || "An error occurred during sign up.");
