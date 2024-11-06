@@ -52,7 +52,7 @@ const SignUp = () => {
   return (
     <div className="max-w-lg mx-auto my-7 text-center">
       <h1 className="text-3xl my-5 capitalize font-semibold">sign up</h1>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 p-2">{error}</p>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"

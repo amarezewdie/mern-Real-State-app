@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../app/user/userSlice";
 
 const SignIn = () => {
+  const { error, loading } = useSelector((store) => store.user);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate=useNavigate();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -18,8 +25,7 @@ const SignIn = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(false);
+    dispatch(signInStart());
     try {
       const res = await fetch("/api/auth/sign-in", {
         method: "POST",
@@ -31,27 +37,21 @@ const SignIn = () => {
 
       if (!res.ok) {
         const err = await res.json();
-        setError(err.message);
+        dispatch(signInFailure(err.message || "An error occurred"));
         return;
       }
       const data = await res.json();
-      setLoading(false);
-      console.log(data);
-      navigate('/')
-
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
-      setError(error.message);
-      console.log(error)
-    } finally {
-      setLoading(false);
-   
+      dispatch(signInFailure(err.message || "An error occurred"));
     }
   };
 
   return (
     <div className="max-w-lg mx-auto text-center my-7">
       <h1 className="capitalize font-semibold text-3xl">sign in</h1>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 p-2">{error}</p>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
         <input
           type="email"
@@ -78,7 +78,7 @@ const SignIn = () => {
         </button>
       </form>
       <p className="text-start px-3">
-        does not have an account ?{" "}
+        Do not have an account ?{" "}
         <span className="text-blue-700 px-2">
           <Link to="/sign-up">sign-up</Link>
         </span>

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className="bg-slate-200 flex items-center justify-between px-6 gap-6 p-3">
       <Link to='/'>
-        <h1>Amare Tech</h1>
+        <h1 className='whitespace-nowrap'>Amare Tech</h1>
       </Link>
       <form className="bg-slate-50 flex items-center justify-center p-3  sm:w-64">
         <input
@@ -26,7 +26,7 @@ const Header = () => {
           <hr className="w-8 sm:12 h-[2px] bg-gray-500 hidden" />
         </NavLink>
         <NavLink to="/sign-in">
-          <p>sign in</p>
+          <p className='whitespace-nowrap'>sign in</p>
           <hr className="w-8 sm:12 h-[2px] bg-gray-500 hidden" />
         </NavLink>
       </ul>
